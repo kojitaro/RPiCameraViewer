@@ -21,6 +21,7 @@ public class VideoActivity extends AppCompatActivity implements VideoFragment.On
 	private Camera camera;
 	private FrameLayout frameLayout;
 	private VideoFragment videoFragment;
+	private JoystickFragment joystickFragment;
 
 	//******************************************************************************
 	// onCreate
@@ -63,9 +64,13 @@ public class VideoActivity extends AppCompatActivity implements VideoFragment.On
 		frameLayout.setSystemUiVisibility(visibility);
 
 		// create the video fragment
-		videoFragment = videoFragment.newInstance(camera, true);
+		videoFragment = VideoFragment.newInstance(camera, true);
+		joystickFragment = JoystickFragment.newInstance(camera);
+
+
 		FragmentTransaction fragTran = getSupportFragmentManager().beginTransaction();
 		fragTran.add(R.id.video, videoFragment);
+		fragTran.add(R.id.video, joystickFragment);
 		fragTran.commit();
 	}
 
