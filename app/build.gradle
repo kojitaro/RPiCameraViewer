@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
 
 android {
     compileSdkVersion 26
@@ -18,6 +19,27 @@ android {
     }
 }
 
+protobuf {
+    // protoc の設定
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.0.0"
+    }
+    // javalite プラグインを使う
+    plugins {
+        lite {
+            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+        }
+    }
+    // タスク関連
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                lite {}
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':ca.frozen.library')
@@ -25,4 +47,5 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'io.github.controlwear:virtualjoystick:1.6.0'
     compile 'com.android.support:support-v4:26.+'
+    compile 'com.google.protobuf:protobuf-lite:3.0.0'
 }

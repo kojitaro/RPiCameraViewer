@@ -9,10 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
 import ca.frozen.library.classes.Log;
 import ca.frozen.rpicameraviewer.R;
 import ca.frozen.rpicameraviewer.classes.Camera;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
+import ca.frozen.rpicameraviewer.classes.Message;
 
 public class JoystickFragment extends Fragment {
     public final static String CAMERA = "camera";
@@ -57,7 +63,9 @@ public class JoystickFragment extends Fragment {
         joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                mTextViewStrengthLeft.setText(String.format("%1$.3f", verticalValue(angle, strength)));
+                float value = verticalValue(angle, strength);
+                mTextViewStrengthLeft.setText(String.format("%1$.3f", value));
+                Message.sendMove(camera.source.address, 0, value);
             }
         });
 
@@ -68,7 +76,9 @@ public class JoystickFragment extends Fragment {
         joystickRight.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                mTextViewStrengthRight.setText(String.format("%1$.3f", verticalValue(angle, strength)));
+                float value = verticalValue(angle, strength);
+                mTextViewStrengthRight.setText(String.format("%1$.3f", value));
+                Message.sendMove(camera.source.address, 1, value);
             }
         });
 
